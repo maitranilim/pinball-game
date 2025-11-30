@@ -3,48 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retro Pinball - 9999 in 1</title>
+    <title>CYBER SPACE - Continuous Shooter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="arcade-header">
-            <h1 class="arcade-title">RETRO PINBALL</h1>
-            <p class="arcade-subtitle">9999 IN 1 PIXEL GAMES</p>
+        <div class="cyber-header">
+            <h1 class="title">⚡ CYBER SPACE ⚡</h1>
+            <p class="subtitle">CONTINUOUS SHOOTER</p>
         </div>
         
         <div class="game-wrapper">
-            <div class="game-screen">
-                <div class="mode-controls">
-                    <button id="userModeBtn" class="mode-btn active">USER</button>
-                    <button id="autoModeBtn" class="mode-btn">AUTO</button>
-                </div>
-                
-                <div class="game-info">
-                    <div class="score-display">SCORE: <span id="score">0</span></div>
-                    <div class="mode-display">MODE: <span id="modeDisplay">USER</span></div>
-                    <div class="status-display" id="statusDisplay">PRESS START</div>
-                </div>
-                
-                <canvas id="gameCanvas" width="480" height="360"></canvas>
-                
-                <div class="controls-info">
-                    <div id="userControls" class="control-text">
-                        Z/A: LEFT | X/D: RIGHT | SPACE: LAUNCH
-                    </div>
-                    <div id="autoControls" class="control-text" style="display:none;">
-                        AI PLAYING - WATCH IT GO!
-                    </div>
-                </div>
+            <div class="hud">
+                <div class="hud-item">SCORE: <span id="score">0</span></div>
+                <div class="hud-item">WAVE: <span id="wave">1</span></div>
+                <div class="hud-item">LIVES: <span id="lives">3</span></div>
+                <div class="hud-item">STATUS: <span id="status">READY</span></div>
             </div>
             
-            <div class="buttons-group">
-                <button id="startBtn" class="btn btn-start">START</button>
-                <button id="resetBtn" class="btn btn-reset">RESET</button>
+            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            
+            <div class="instructions">
+                ARROW KEYS or WASD to MOVE | SPACE to SHOOT | P to PAUSE
             </div>
+        </div>
+        
+        <div class="button-group">
+            <button id="startBtn" class="btn btn-start">[ START GAME ]</button>
+            <button id="pauseBtn" class="btn btn-pause">[ PAUSE ]</button>
+            <button id="resetBtn" class="btn btn-reset">[ RESET ]</button>
         </div>
     </div>
     
