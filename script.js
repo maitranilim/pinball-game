@@ -1,8 +1,8 @@
 // Game Constants
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = 400;
-const CANVAS_HEIGHT = 600;
+const CANVAS_WIDTH = 480;
+const CANVAS_HEIGHT = 360;
 
 // Game Variables
 let gameState = {
@@ -16,19 +16,19 @@ let gameState = {
 // Game Objects
 const ball = {
     x: CANVAS_WIDTH / 2,
-    y: CANVAS_HEIGHT - 80,
+    y: CANVAS_HEIGHT - 60,
     vx: 0,
     vy: 0,
-    radius: 5,
+    radius: 15,
     friction: 0.99,
     gravity: 0.3
 };
 
 const leftFlipper = {
     x: CANVAS_WIDTH / 4,
-    y: CANVAS_HEIGHT - 30,
-    length: 60,
-    width: 10,
+    y: CANVAS_HEIGHT - 40,
+    length: 80,
+    width: 15,
     angle: -0.3,
     restAngle: -0.3,
     activeAngle: 0.3,
@@ -38,9 +38,9 @@ const leftFlipper = {
 
 const rightFlipper = {
     x: (CANVAS_WIDTH * 3) / 4,
-    y: CANVAS_HEIGHT - 30,
-    length: 60,
-    width: 10,
+    y: CANVAS_HEIGHT - 40,
+    length: 80,
+    width: 15,
     angle: 0.3,
     restAngle: 0.3,
     activeAngle: -0.3,
@@ -49,18 +49,18 @@ const rightFlipper = {
 };
 
 const bumpers = [
-    { x: 100, y: 100, radius: 20 },
-    { x: 200, y: 80, radius: 20 },
-    { x: 300, y: 100, radius: 20 },
-    { x: 150, y: 200, radius: 20 },
-    { x: 250, y: 200, radius: 20 },
-    { x: 200, y: 320, radius: 20 }
+    { x: 80, y: 80, radius: 30 },
+    { x: 240, y: 60, radius: 30 },
+    { x: 400, y: 80, radius: 30 },
+    { x: 160, y: 160, radius: 30 },
+    { x: 320, y: 160, radius: 30 },
+    { x: 240, y: 240, radius: 30 }
 ];
 
 const walls = [
-    { x1: 10, y1: 0, x2: 10, y2: CANVAS_HEIGHT }, // left wall
-    { x1: CANVAS_WIDTH - 10, y1: 0, x2: CANVAS_WIDTH - 10, y2: CANVAS_HEIGHT }, // right wall
-    { x1: 10, y1: 10, x2: CANVAS_WIDTH - 10, y2: 10 } // top wall
+    { x1: 15, y1: 0, x2: 15, y2: CANVAS_HEIGHT },
+    { x1: CANVAS_WIDTH - 15, y1: 0, x2: CANVAS_WIDTH - 15, y2: CANVAS_HEIGHT },
+    { x1: 15, y1: 15, x2: CANVAS_WIDTH - 15, y2: 15 }
 ];
 
 // Key tracking
@@ -101,7 +101,7 @@ function setUserMode() {
         gameState.isAutoMode = false;
         document.getElementById('userModeBtn').classList.add('active');
         document.getElementById('autoModeBtn').classList.remove('active');
-        document.getElementById('modeDisplay').textContent = 'User';
+        document.getElementById('modeDisplay').textContent = 'USER';
         document.getElementById('userControls').style.display = 'block';
         document.getElementById('autoControls').style.display = 'none';
     }
@@ -112,7 +112,7 @@ function setAutoMode() {
         gameState.isAutoMode = true;
         document.getElementById('autoModeBtn').classList.add('active');
         document.getElementById('userModeBtn').classList.remove('active');
-        document.getElementById('modeDisplay').textContent = 'Auto';
+        document.getElementById('modeDisplay').textContent = 'AUTO';
         document.getElementById('userControls').style.display = 'none';
         document.getElementById('autoControls').style.display = 'block';
     }
@@ -125,10 +125,10 @@ function startGame() {
         gameState.ballLaunched = false;
         gameState.ballInPlay = false;
         ball.x = CANVAS_WIDTH / 2;
-        ball.y = CANVAS_HEIGHT - 80;
+        ball.y = CANVAS_HEIGHT - 60;
         ball.vx = 0;
         ball.vy = 0;
-        document.getElementById('statusDisplay').textContent = 'Press SPACE to launch';
+        document.getElementById('statusDisplay').textContent = 'PRESS SPACE TO LAUNCH';
         gameLoop();
     }
 }
@@ -139,13 +139,13 @@ function resetGame() {
     gameState.ballLaunched = false;
     gameState.ballInPlay = false;
     ball.x = CANVAS_WIDTH / 2;
-    ball.y = CANVAS_HEIGHT - 80;
+    ball.y = CANVAS_HEIGHT - 60;
     ball.vx = 0;
     ball.vy = 0;
     leftFlipper.angle = leftFlipper.restAngle;
     rightFlipper.angle = rightFlipper.restAngle;
     document.getElementById('score').textContent = '0';
-    document.getElementById('statusDisplay').textContent = 'Press START';
+    document.getElementById('statusDisplay').textContent = 'PRESS START';
     drawGame();
 }
 
@@ -154,51 +154,43 @@ function launchBall() {
         gameState.ballLaunched = true;
         gameState.ballInPlay = true;
         ball.vx = (Math.random() - 0.5) * 4;
-        ball.vy = -8;
-        document.getElementById('statusDisplay').textContent = 'Playing...';
+        ball.vy = -10;
+        document.getElementById('statusDisplay').textContent = 'PLAYING';
     }
 }
 
 function updateBall() {
     if (!gameState.ballInPlay) return;
 
-    // Apply gravity
     ball.vy += ball.gravity;
-
-    // Apply friction
     ball.vx *= ball.friction;
     ball.vy *= ball.friction;
-
-    // Update position
     ball.x += ball.vx;
     ball.y += ball.vy;
 
-    // Wall collisions
-    if (ball.x - ball.radius < 10) {
-        ball.x = 10 + ball.radius;
+    if (ball.x - ball.radius < 15) {
+        ball.x = 15 + ball.radius;
         ball.vx *= -0.8;
     }
-    if (ball.x + ball.radius > CANVAS_WIDTH - 10) {
-        ball.x = CANVAS_WIDTH - 10 - ball.radius;
+    if (ball.x + ball.radius > CANVAS_WIDTH - 15) {
+        ball.x = CANVAS_WIDTH - 15 - ball.radius;
         ball.vx *= -0.8;
     }
-    if (ball.y - ball.radius < 10) {
-        ball.y = 10 + ball.radius;
+    if (ball.y - ball.radius < 15) {
+        ball.y = 15 + ball.radius;
         ball.vy *= -0.8;
     }
 
-    // Check if ball fell off
     if (ball.y > CANVAS_HEIGHT) {
         gameState.ballInPlay = false;
         gameState.ballLaunched = false;
         ball.x = CANVAS_WIDTH / 2;
-        ball.y = CANVAS_HEIGHT - 80;
+        ball.y = CANVAS_HEIGHT - 60;
         ball.vx = 0;
         ball.vy = 0;
-        document.getElementById('statusDisplay').textContent = 'Press SPACE to launch';
+        document.getElementById('statusDisplay').textContent = 'PRESS SPACE TO LAUNCH';
     }
 
-    // Bumper collisions
     bumpers.forEach((bumper) => {
         const dx = ball.x - bumper.x;
         const dy = ball.y - bumper.y;
@@ -208,14 +200,13 @@ function updateBall() {
             const angle = Math.atan2(dy, dx);
             ball.x = bumper.x + Math.cos(angle) * (ball.radius + bumper.radius);
             ball.y = bumper.y + Math.sin(angle) * (ball.radius + bumper.radius);
-            ball.vx = Math.cos(angle) * 8;
-            ball.vy = Math.sin(angle) * 8;
+            ball.vx = Math.cos(angle) * 10;
+            ball.vy = Math.sin(angle) * 10;
             gameState.score += 100;
             document.getElementById('score').textContent = gameState.score;
         }
     });
 
-    // Flipper collisions
     checkFlipperCollision(leftFlipper);
     checkFlipperCollision(rightFlipper);
 }
@@ -246,8 +237,8 @@ function checkFlipperCollision(flipper) {
             const angle = Math.atan2(distY, distX);
             ball.x = closestX + Math.cos(angle) * (ball.radius + flipper.width);
             ball.y = closestY + Math.sin(angle) * (ball.radius + flipper.width);
-            ball.vx = Math.cos(flipper.angle) * 10;
-            ball.vy = Math.sin(flipper.angle) * 10;
+            ball.vx = Math.cos(flipper.angle) * 12;
+            ball.vy = Math.sin(flipper.angle) * 12;
             gameState.score += 50;
             document.getElementById('score').textContent = gameState.score;
         }
@@ -255,7 +246,6 @@ function checkFlipperCollision(flipper) {
 }
 
 function updateFlippers() {
-    // Left flipper
     if (leftFlipper.isActive) {
         if (leftFlipper.angle < leftFlipper.activeAngle) {
             leftFlipper.angle += leftFlipper.rotationSpeed;
@@ -266,7 +256,6 @@ function updateFlippers() {
         }
     }
 
-    // Right flipper
     if (rightFlipper.isActive) {
         if (rightFlipper.angle > rightFlipper.activeAngle) {
             rightFlipper.angle -= rightFlipper.rotationSpeed;
@@ -281,7 +270,6 @@ function updateFlippers() {
 function updateAutoMode() {
     if (!gameState.isAutoMode || !gameState.ballInPlay) return;
 
-    // Simple AI: Move flippers towards the ball
     if (ball.x < CANVAS_WIDTH / 2) {
         leftFlipper.isActive = true;
         rightFlipper.isActive = false;
@@ -292,12 +280,11 @@ function updateAutoMode() {
 }
 
 function drawGame() {
-    // Clear canvas
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Draw walls
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = '#999';
     ctx.lineWidth = 2;
     walls.forEach((wall) => {
         ctx.beginPath();
@@ -307,22 +294,28 @@ function drawGame() {
     });
 
     // Draw bumpers
-    ctx.fillStyle = '#ff6b6b';
+    ctx.fillStyle = '#444';
     bumpers.forEach((bumper) => {
         ctx.beginPath();
         ctx.arc(bumper.x, bumper.y, bumper.radius, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 2;
+        ctx.stroke();
     });
 
     // Draw flippers
-    drawFlipper(leftFlipper, '#00ff00');
-    drawFlipper(rightFlipper, '#0099ff');
+    drawFlipper(leftFlipper, '#aaa');
+    drawFlipper(rightFlipper, '#aaa');
 
     // Draw ball
-    ctx.fillStyle = '#ffff00';
+    ctx.fillStyle = '#fff';
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
     ctx.fill();
+    ctx.strokeStyle = '#ddd';
+    ctx.lineWidth = 1;
+    ctx.stroke();
 }
 
 function drawFlipper(flipper, color) {
@@ -341,7 +334,6 @@ function drawFlipper(flipper, color) {
 function gameLoop() {
     if (!gameState.isRunning) return;
 
-    // Handle ball launch
     if (keysPressed[' '] && !gameState.ballInPlay) {
         launchBall();
     }
