@@ -3,54 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinball Game - User & Auto Mode</title>
+    <title>Retro Pinball - 9999 in 1</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Pinball Game</h1>
-            <div class="mode-selector">
-                <button id="userModeBtn" class="mode-btn active">User Mode</button>
-                <button id="autoModeBtn" class="mode-btn">Auto Mode</button>
-            </div>
+        <div class="arcade-header">
+            <h1 class="arcade-title">RETRO PINBALL</h1>
+            <p class="arcade-subtitle">9999 IN 1 PIXEL GAMES</p>
         </div>
         
-        <div class="game-info">
-            <div class="info-item">
-                <span class="label">Score:</span>
-                <span id="score" class="value">0</span>
+        <div class="game-wrapper">
+            <div class="game-screen">
+                <div class="mode-controls">
+                    <button id="userModeBtn" class="mode-btn active">USER</button>
+                    <button id="autoModeBtn" class="mode-btn">AUTO</button>
+                </div>
+                
+                <div class="game-info">
+                    <div class="score-display">SCORE: <span id="score">0</span></div>
+                    <div class="mode-display">MODE: <span id="modeDisplay">USER</span></div>
+                    <div class="status-display" id="statusDisplay">PRESS START</div>
+                </div>
+                
+                <canvas id="gameCanvas" width="480" height="360"></canvas>
+                
+                <div class="controls-info">
+                    <div id="userControls" class="control-text">
+                        Z/A: LEFT | X/D: RIGHT | SPACE: LAUNCH
+                    </div>
+                    <div id="autoControls" class="control-text" style="display:none;">
+                        AI PLAYING - WATCH IT GO!
+                    </div>
+                </div>
             </div>
-            <div class="info-item">
-                <span class="label">Mode:</span>
-                <span id="modeDisplay" class="value">User</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Status:</span>
-                <span id="statusDisplay" class="value">Press START</span>
-            </div>
-        </div>
-        
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
-        
-        <div class="controls">
-            <div class="user-controls" id="userControls">
-                <p>User Mode Controls:</p>
-                <ul>
-                    <li><strong>LEFT FLIPPER:</strong> Press 'Z' or 'A'</li>
-                    <li><strong>RIGHT FLIPPER:</strong> Press 'X' or 'D'</li>
-                    <li><strong>LAUNCH BALL:</strong> Press 'SPACE'</li>
-                    <li><strong>TILT:</strong> Press 'T'</li>
-                </ul>
-            </div>
-            <div class="auto-controls" id="autoControls" style="display:none;">
-                <p>Auto Mode:</p>
-                <p>Watch the AI play the game automatically!</p>
-                <p>The flippers will activate based on ball position.</p>
-            </div>
-            <div class="button-group">
-                <button id="startBtn" class="start-btn">START GAME</button>
-                <button id="resetBtn" class="reset-btn">RESET</button>
+            
+            <div class="buttons-group">
+                <button id="startBtn" class="btn btn-start">START</button>
+                <button id="resetBtn" class="btn btn-reset">RESET</button>
             </div>
         </div>
     </div>
